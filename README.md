@@ -1,74 +1,72 @@
 # ecommerce-ops-toolkit
 
-多平台电商运营知识库管理工具。用于采集、整理和归档多平台（淘宝闪购、美团闪购等）的运营资料，自动生成结构化文档并同步到腾讯文档知识库。
+Multi-platform e-commerce operations knowledge base management tool. Collects, organizes and archives operations materials from multiple platforms (Taobao Flash Sale, Meituan Flash Sale, JD, Douyin, etc.), generates structured documents and syncs to Tencent Docs knowledge base.
 
-## 功能
+## Features
 
-- 多关键词并行搜索，采集各平台运营资料
-- 按平台和场景自动分类整理
-- 生成标准化的运营文档（FAQ、操作指南、入驻攻略等）
-- 一键同步到腾讯文档知识库空间
+- Multi-keyword parallel search, collect operations materials from each platform
+- Automatic classification by platform and scenario
+- Generate standardized operations documents (FAQ, operation guides, onboarding guides, etc.)
+- One-click sync to Tencent Docs knowledge base space
+- Bing real-time search integration for latest platform announcements and rule changes
 
-## 适用场景
-
-- 新平台入驻时快速收集规则和资质要求
-- 运营团队知识库搭建和维护
-- 多平台资料对比和归档
-- 新员工培训材料整理
-
-## 项目结构
+## Project Structure
 
 ```
 ecommerce-ops-toolkit/
 ├── src/
-│   ├── crawler.py       # 搜索和数据采集
-│   ├── doc_builder.py   # 文档内容生成
-│   └── config.py        # 平台配置和搜索关键词
-├── data/                # 采集到的原始数据
-├── scripts/
-│   └── build_kb.py      # 主入口：执行完整流程
+│   ├── main.py          # CLI entry point and Bing search crawler
+│   └── config.py         # Platform configuration and search keywords
+├── data/                 # Collected raw data and search results
 ├── requirements.txt
 └── README.md
 ```
 
-## 使用方法
+## Usage
 
-### 安装依赖
+### Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 配置
+### Configuration
 
-编辑 `src/config.py`，设置：
+Edit `src/config.py`:
 
-- `SEARCH_KEYWORDS`：要搜索的关键词列表
-- `PLATFORMS`：目标平台配置
-- `KB_TITLE`：知识库标题
+- `SEARCH_KEYWORDS`: List of keywords to search
+- `PLATFORMS`: Target platform configuration
+- `KB_TITLE`: Knowledge base title
 
-### 运行
+### Run
 
 ```bash
-# 执行完整流程（搜索 → 整理 → 生成文档）
-python scripts/build_kb.py
+# Run search and save results to data/search_results.json
+python src/main.py search
 
-# 只搜索不生成文档
-python scripts/build_kb.py --task search
+# Search with custom keywords
+python src/main.py search --keywords "淘宝鲜花运营" "美团闪购入驻"
 
-# 指定自定义关键词
-python scripts/build_kb.py --keywords "淘宝闪购入驻" "美团鲜花运营"
+# Specify API endpoint (optional, Bing crawler used by default)
+python src/main.py search --api-url "http://your-api-endpoint.com"
 ```
 
-## 依赖
+## Architecture
+
+The tool follows a simple two-layer architecture:
+
+1. **Data Collection Layer**: Bing search crawler fetches real-time operations content from platform help centers, support forums, and industry sources
+2. **Knowledge Base Layer**: Structured JSON storage with full-text search capability, ready for integration with external knowledge base systems
+
+## Dependencies
 
 - Python 3.10+
-- httpx（HTTP 请求）
-- 腾讯文档 API（通过 MCP 或 SDK）
+- httpx (HTTP client)
+- rich (CLI output formatting)
 
-## 说明
+## Notes
 
-本项目是运营团队内部使用的工具集，核心目的是把散落在各平台的运营规范、操作指南和常见问题收集整理成结构化知识库。代码结构简单，方便根据实际业务需求修改。
+Core purpose: collect and organize operations specs, operation guides and FAQs scattered across multiple platforms into structured knowledge bases. Code structure is simple and easy to modify according to actual business needs.
 
 ## License
 
