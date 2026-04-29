@@ -9,7 +9,7 @@ from typing import Dict
 logger = logging.getLogger(__name__)
 
 
-class ExecutionAgent:
+class ExecutorAgent:
     """将审批通过的决策推送到平台"""
 
     def execute(self, decision: Dict, approved: bool = True) -> Dict:
