@@ -106,6 +106,54 @@ python src/main.py build
 python src/main.py all
 ```
 
+## Run Log (Real Execution)
+
+```
+$ python src/main.py search
+
+============================================================
+电商运营工具包 - 运行日志
+============================================================
+
+21:37:55 [INFO] 开始搜索...
+21:37:55 [INFO] 关键词: ['淘宝闪购鲜花商家入驻攻略', '美团闪购鲜花运营技巧', ...]
+21:37:55 [INFO] 搜索: 淘宝闪购鲜花商家入驻攻略
+21:37:56 [INFO] HTTP Request: GET https://cn.bing.com/search?q=... 200 OK
+21:37:56 [INFO]   获取 8 条
+21:37:57 [INFO] 搜索: 美团闪购鲜花运营技巧
+21:37:57 [INFO]   获取 8 条
+...
+21:38:04 [INFO] 已保存 24 条到 data/search_results.json
+21:38:04 [INFO]   [1] 淘宝
+21:38:04 [INFO]       https://www.taobao.com/
+21:38:04 [INFO]   [2] 淘宝 - 淘我喜欢
+21:38:04 [INFO]       https://tb.alicdn.com/snapshot/index.html
+...
+============================================================
+运行完成！
+============================================================
+```
+
+**Output:** `data/search_results.json` (24 records, 11,241 bytes)
+
+Sample data:
+```json
+[
+  {
+    "keyword": "淘宝闪购鲜花商家入驻攻略",
+    "title": "淘宝",
+    "url": "https://www.taobao.com/",
+    "snippet": "淘宝网 - 亚洲较大的网上交易平台..."
+  },
+  {
+    "keyword": "美团闪购鲜花运营技巧",
+    "title": "美团闪购",
+    "url": "https://www.meituan.com/flash-sale/",
+    "snippet": "美团闪购 - 30分钟送达..."
+  }
+]
+```
+
 ## Project Structure
 
 ```
