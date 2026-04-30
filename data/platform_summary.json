@@ -1,0 +1,22 @@
+{
+  "collect_time": "2026-04-30T15:15:12",
+  "platforms": {
+    "taobao": {
+      "records": 15,
+      "shops": 12
+    },
+    "meituan": {
+      "records": 15,
+      "shops": 15
+    },
+    "jd": {
+      "records": 12,
+      "shops": 12
+    },
+    "douyin": {
+      "records": 12,
+      "authors": 8
+    }
+  },
+  "total_records": 54
+}
