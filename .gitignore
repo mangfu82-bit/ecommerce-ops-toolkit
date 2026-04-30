@@ -30,6 +30,7 @@ htmlcov/
 # Local data & secrets
 *.json
 !data/*.json
+!data/runs/*.json
 .env
 *.log
 
