@@ -1,0 +1,66 @@
+# 电商运营工具包 - 配置文件样例
+# 复制此文件为 config.yaml 并填入真实值
+
+# 搜索配置
+search:
+  # 搜索关键词列表（可从命令行覆盖）
+  keywords:
+    - "淘宝闪购鲜花商家入驻攻略"
+    - "美团闪购鲜花运营技巧"
+    - "京东到家鲜花店运营方法"
+    - "抖音电商鲜花直播话术"
+    - "花礼鲜花闪购平台商家入驻"
+    - "淘宝美团闪购商家版客户端后台管理"
+  
+  # 每次搜索返回结果数
+  results_per_keyword: 10
+  
+  # 搜索延迟（秒），避免被封
+  delay_between_searches: 2
+
+# 数据路径
+data:
+  # 搜索结果存储路径
+  search_results: "data/search_results.json"
+  
+  # 知识库文档输出路径
+  kb_output: "data/knowledge_base.md"
+
+# 日志配置
+logging:
+  # 日志级别: DEBUG, INFO, WARNING, ERROR
+  level: "INFO"
+  
+  # 日志文件路径（空则不写文件）
+  file: "logs/ecom-toolkit.log"
+  
+  # 是否在控制台显示日志
+  console: true
+
+# 平台配置（预留）
+platforms:
+  taobao:
+    enabled: true
+    # client_id: "your_client_id"
+    # client_secret: "your_client_secret"
+  
+  meituan:
+    enabled: true
+    # api_key: "your_api_key"
+  
+  jd:
+    enabled: false
+  
+  douyin:
+    enabled: false
+
+# 知识库配置
+knowledge_base:
+  # 向量数据库路径（预留）
+  vector_db: "data/vector_store/"
+  
+  # Embedding 模型（预留）
+  embedding_model: "text-embedding-ada-002"
+  
+  # 本地 RAG 数据路径
+  rag_data: "data/rag/"
