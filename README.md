@@ -1,217 +1,116 @@
-# ecommerce-ops-toolkit
+# E-commerce Intelligent Ops Platform
 
-Multi-agent e-commerce operations platform. Built with OpenClaw, automates data collection, cross-platform analysis, and decision support for Taobao/Meituan/JD/Douyin flash-sale operations.
+LLM-powered intelligent e-commerce operations platform for cross-platform data collection, analysis and automated decision-making.
+
+Supports: Taobao, Meituan Flash, JD, Douyin
 
 ## Architecture
 
 ```
-┌─────────────────────────────────────────────────────┐
-│                   Collection Layer                   │
-│  ┌──────┐  ┌──────┐  ┌──────┐  ┌──────┐            │
-│  │Taobao│  │Meituan│  │  JD  │  │Douyin│            │
-│  │Agent │  │Agent │  │Agent │  │Agent │            │
-│  └──┬───┘  └──┬───┘  └──┬───┘  └──┬───┘            │
-│     └──────────┴─────────┴─────────┘                │
-│                    ▼                                  │
-│           Structured DB + Vector KB                   │
-├─────────────────────────────────────────────────────┤
-│                    Fusion Layer                       │
-│  ┌────────────────┐  ┌────────────────┐             │
-│  │ Cross-platform  │  │  Market Intel  │             │
-│  │ Correlation Ag. │  │     Agent      │             │
-│  └───────┬────────┘  └───────┬────────┘             │
-│          └──────────┬────────┘                       │
-│                     ▼                                 │
-├─────────────────────────────────────────────────────┤
-│                  Decision Layer                       │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐          │
-│  │ Pricing  │→ │ Supply   │→ │ Content  │          │
-│  │  Agent   │  │  Chain   │  │  Agent   │          │
-│  │          │  │  Agent   │  │          │          │
-│  └──────────┘  └──────────┘  └──────────┘          │
-│          │            │            │                  │
-│          └────────────┴────────────┘                 │
-│                    ▼                                  │
-│           Human-in-the-Loop Approval                  │
-├─────────────────────────────────────────────────────┤
-│               Execution & Feedback                    │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐          │
-│  │ Execution│  │ Monitor  │  │ Learning │          │
-│  │  Agent   │  │  Agent   │  │  Agent   │          │
-│  └──────────┘  └──────────┘  └──────────┘          │
-│         │            │            │                   │
-│         └────────────┴────────────┘                  │
-│                    ▼                                  │
-│           Feedback to Decision Layer                  │
-└─────────────────────────────────────────────────────┘
+Trigger → Collection (4 platforms parallel) → Fusion (LLM) → Decision (LLM) → Execution → Report
 ```
 
-## Workflow
+**8-stage workflow:**
+1. Trigger: Scheduled / API / Manual
+2. Collection: 4 platforms in parallel (Taobao / Meituan / JD / Douyin)
+3. Cleaning: LLM deduplication + relevance scoring
+4. Fusion: Cross-platform analysis + knowledge graph
+5. Decision: Multi-dimensional scoring + action recommendation
+6. Execution: Multi-strategy execution + retry
+7. Approval: Human-in-the-loop confirmation
+8. Review: LLM self-evaluation + optimization
 
-### Stage 1: Data Collection
-4 parallel agents collect platform-specific data:
-- **Taobao Agent**: search rankings, seller policies, promotion rules
-- **Meituan Agent**: flash-sale delivery metrics, competitor pricing
-- **JD Agent**: inventory levels, logistics data, pricing
-- **Douyin Agent**: livestream metrics, trending product signals
+## Modules
 
-Data flows into a structured database (SQLite/PostgreSQL) for quantitative fields and a vector knowledge base for semantic search over rules, FAQs, and documentation.
+### Core
+- `src/core/orchestrator.py` - 8-stage async parallel workflow
+- `src/core/llm_router.py` - Multi-model routing (GPT-4o-mini / DeepSeek / GPT-3.5)
+- `src/core/retry_engine.py` - Smart retry with exponential backoff
 
-### Stage 2: Cross-Platform Fusion
-- **Correlation Agent**: identifies cross-platform patterns (e.g., Douyin trending → Taobao search volume spike within 2h)
-- **Market Intel Agent**: tracks competitor actions — pricing changes, new store openings, promotion launches
+### Collection Layer (LLM-powered)
+- `src/agents/collector/taobao.py` - Product search, store analysis, price monitoring
+- `src/agents/collector/meituan.py` - Flash sale, delivery zones, competitor tracking
+- `src/agents/collector/jd.py` - Product data, reviews, price history
+- `src/agents/collector/douyin.py` - Live streaming, short videos, influencer analysis
 
-### Stage 3: Decision Engine
-Three reasoning agents with dependency chain:
-1. **Pricing Agent** → generates pricing recommendations per SKU based on competitor data + inventory + historical sales
-2. **Supply Chain Agent** → 7-day demand forecast, triggers procurement alerts (uses Prophet for time-series + LLM for contextual reasoning)
-3. **Content Agent** → generates product titles, detail page copy, promotion copy
+### Fusion Layer
+- `src/agents/fusion/correlator.py` - Price arbitrage, cross-platform matching
+- `src/agents/fusion/market_intel.py` - Market trends, competitive intelligence
 
-Pricing changes cascade → Supply Chain re-evaluates → Content adjusts accordingly.
+### Decision Layer
+- `src/agents/decision/pricing.py` - Dynamic pricing strategy (17KB, LLM-powered)
+- `src/agents/decision/supply_chain.py` - Inventory management, procurement
+- `src/agents/decision/content.py` - Product listing optimization
 
-All decisions pass through a **human-in-the-loop approval queue** before execution.
-
-### Stage 4: Execute & Learn
-- **Execution Agent**: pushes approved changes via platform APIs
-- **Monitor Agent**: tracks outcome metrics, triggers anomaly alerts
-- **Learning Agent**: feeds results back to optimize decision parameters
-
-## What's Running Now
-
-| Component | Status | Details |
-|-----------|--------|---------|
-| Bing Search Crawler | ✅ Live | Collects real-time ops content from platform help centers |
-| Vector Knowledge Base | ✅ Live | 500+ entries, RAG-based semantic retrieval |
-| Cross-platform Q&A | ✅ Live | Local KB first, Bing fallback, ~50 queries/day |
-| Content Generation | ✅ Live | Product titles, detail pages, promotion copy |
-| Collection Agents (4) | 🔧 In Progress | Taobao/Meituan/JD/Douyin scrapers |
-| Decision Agents (3) | 🔧 In Progress | Pricing/Supply Chain/Content reasoning |
-| Execution Layer (3) | 📋 Planned | API integration + monitoring + feedback loop |
+### Execution Layer
+- `src/agents/execution/executor.py` - Task execution engine with retry
+- `src/agents/execution/monitor.py` - Real-time monitoring and alerting
 
 ## Quick Start
 
 ```bash
-pip install -r requirements.txt
+# One-click demo
+python demo.py
 
-# Search and collect operations materials
-python src/main.py search
+# Search command
+python src/main.py search "rose bouquet mothers day"
 
-# Search with custom keywords
-python src/main.py search --keywords "淘宝鲜花运营" "美团闪购入驻"
+# Run status
+python src/main.py status
 
-# Build knowledge base document
-python src/main.py build
-
-# Full pipeline
-python src/main.py all
+# List runs
+python src/main.py list-runs
 ```
 
-## Run Log (Real Execution)
+## Configuration
 
-```
-$ python src/main.py search
-
-============================================================
-电商运营工具包 - 运行日志
-============================================================
-
-21:37:55 [INFO] 开始搜索...
-21:37:55 [INFO] 关键词: ['淘宝闪购鲜花商家入驻攻略', '美团闪购鲜花运营技巧', ...]
-21:37:55 [INFO] 搜索: 淘宝闪购鲜花商家入驻攻略
-21:37:56 [INFO] HTTP Request: GET https://cn.bing.com/search?q=... 200 OK
-21:37:56 [INFO]   获取 8 条
-21:37:57 [INFO] 搜索: 美团闪购鲜花运营技巧
-21:37:57 [INFO]   获取 8 条
-...
-21:38:04 [INFO] 已保存 24 条到 data/search_results.json
-21:38:04 [INFO]   [1] 淘宝
-21:38:04 [INFO]       https://www.taobao.com/
-21:38:04 [INFO]   [2] 淘宝 - 淘我喜欢
-21:38:04 [INFO]       https://tb.alicdn.com/snapshot/index.html
-...
-============================================================
-运行完成！
-============================================================
+Copy and edit config:
+```bash
+cp config.EXAMPLE.yaml config.yaml
 ```
 
-**Output:** `data/search_results.json` (24 records, 11,241 bytes)
-
-Sample data:
-```json
-[
-  {
-    "keyword": "淘宝闪购鲜花商家入驻攻略",
-    "title": "淘宝",
-    "url": "https://www.taobao.com/",
-    "snippet": "淘宝网 - 亚洲较大的网上交易平台..."
-  },
-  {
-    "keyword": "美团闪购鲜花运营技巧",
-    "title": "美团闪购",
-    "url": "https://www.meituan.com/flash-sale/",
-    "snippet": "美团闪购 - 30分钟送达..."
-  }
-]
-```
-
-## Project Structure
+## Demo Output
 
 ```
-ecommerce-ops-toolkit/
-├── src/
-│   ├── main.py              # CLI entry + task orchestration
-│   ├── config.py            # Platform config, keywords, agent settings
-│   ├── crawler.py           # Bing search crawler (live)
-│   ├── agents/
-│   │   ├── collector/       # Platform data collection agents
-│   │   │   ├── taobao.py    # Taobao scraper
-│   │   │   ├── meituan.py   # Meituan scraper
-│   │   │   ├── jd.py        # JD scraper
-│   │   │   └── douyin.py    # Douyin scraper
-│   │   ├── fusion/          # Cross-platform correlation & market intel
-│   │   │   ├── correlator.py
-│   │   │   └── market_intel.py
-│   │   ├── decision/        # Pricing, supply chain, content agents
-│   │   │   ├── pricing.py
-│   │   │   ├── supply_chain.py
-│   │   │   └── content.py
-│   │   └── execution/       # Execution, monitoring, learning
-│   │       ├── executor.py
-│   │       ├── monitor.py
-│   │       └── learner.py
-│   ├── kb/
-│   │   ├── vector_store.py  # Vector KB for semantic search
-│   │   └── rag.py           # RAG retrieval pipeline
-│   └── utils/
-│       ├── db.py            # SQLite/PostgreSQL interface
-│       └── approval.py      # Human-in-the-loop approval queue
-├── data/                    # Collected data and search results
-├── tests/
-├── requirements.txt
-└── README.md
+[Stage 1/4] Collection layer - 4 platforms parallel...
+  [Taobao] searching...
+  [Meituan] searching...
+  [JD] searching...
+  [Douyin] searching...
+  Collected: 20 items
+
+[Stage 2/4] Fusion layer - LLM cross-platform analysis...
+  Total products: 20
+  Average price: 83.80
+  Top platform: Taobao
+
+[Stage 3/4] Decision layer - Generate ops decisions...
+  Decision: price_adjust
+  Platform: Taobao
+  Suggestion: Adjust price 1% on Taobao
+  Approval: required
+
+[Stage 4/4] Execution report
+  Run ID: demo_20260XXX_XXXXXX
+  Status: completed
+  Duration: 12.5s
 ```
 
-## Token Usage
+## Project Stats
 
-| Component | Tokens/call | Calls/day | Daily total |
-|-----------|------------|-----------|-------------|
-| RAG Q&A | ~4,000 | 50 | 200K |
-| Content Gen | ~3,000 | 20 | 60K |
-| Decision Agents | ~15,000 | 300 | 4.5M |
-| Monitoring | ~2,000 | 100 | 200K |
-| **Total** | | | **~5M/day** |
-
-Monthly estimate: ~150M tokens (current). Full 12-agent pipeline target: ~800M-1.2B/month.
-
-## Tech Stack
-
-- **Runtime**: Python 3.10+
-- **LLM Integration**: OpenClaw (multi-model routing)
-- **Search**: Bing crawler (no API key needed)
-- **Vector KB**: Local embedding + cosine similarity
-- **Time-series**: Prophet for demand forecasting
-- **Database**: SQLite (dev) / PostgreSQL (prod)
+| Layer | Files | Size |
+|-------|-------|------|
+| Core | 3 | 30KB |
+| Collection | 4 | 51KB |
+| Fusion | 2 | 31KB |
+| Decision | 3 | 53KB |
+| Execution | 2 | 20KB |
+| **Total** | **14** | **~185KB** |
 
 ## License
 
 MIT
+
+## GitHub
+
+https://github.com/mangfu82-bit/ecommerce-ops-toolkit
