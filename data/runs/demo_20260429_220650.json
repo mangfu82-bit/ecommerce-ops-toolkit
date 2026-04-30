@@ -1,0 +1,103 @@
+{
+  "run_id": "demo_20260429_220650",
+  "trigger": "demo",
+  "status": "done",
+  "steps": [
+    {
+      "name": "采集-淘宝",
+      "agent_type": "collector",
+      "agent_name": "taobao",
+      "status": "done",
+      "duration_sec": 1.23,
+      "error": "",
+      "retry_count": 0
+    },
+    {
+      "name": "采集-美团",
+      "agent_type": "collector",
+      "agent_name": "meituan",
+      "status": "done",
+      "duration_sec": 0.98,
+      "error": "",
+      "retry_count": 0
+    },
+    {
+      "name": "采集-京东",
+      "agent_type": "collector",
+      "agent_name": "jd",
+      "status": "done",
+      "duration_sec": 1.45,
+      "error": "",
+      "retry_count": 0
+    },
+    {
+      "name": "采集-抖音",
+      "agent_type": "collector",
+      "agent_name": "douyin",
+      "status": "done",
+      "duration_sec": 2.1,
+      "error": "",
+      "retry_count": 0
+    },
+    {
+      "name": "融合-市场情报",
+      "agent_type": "fusion",
+      "agent_name": "market_intel",
+      "status": "done",
+      "duration_sec": 3.2,
+      "error": "",
+      "retry_count": 0
+    },
+    {
+      "name": "融合-关联分析",
+      "agent_type": "fusion",
+      "agent_name": "correlator",
+      "status": "done",
+      "duration_sec": 1.8,
+      "error": "",
+      "retry_count": 0
+    },
+    {
+      "name": "决策-定价",
+      "agent_type": "decision",
+      "agent_name": "pricing",
+      "status": "done",
+      "duration_sec": 0.5,
+      "error": "",
+      "retry_count": 0
+    },
+    {
+      "name": "决策-供应链",
+      "agent_type": "decision",
+      "agent_name": "supply",
+      "status": "done",
+      "duration_sec": 0.3,
+      "error": "",
+      "retry_count": 0
+    },
+    {
+      "name": "决策-内容",
+      "agent_type": "decision",
+      "agent_name": "content",
+      "status": "done",
+      "duration_sec": 0.4,
+      "error": "",
+      "retry_count": 0
+    },
+    {
+      "name": "执行-executor",
+      "agent_type": "execution",
+      "agent_name": "executor",
+      "status": "done",
+      "duration_sec": 0.2,
+      "error": "",
+      "retry_count": 0
+    }
+  ],
+  "started_at": "2026-04-29T22:06:50.217524",
+  "finished_at": "2026-04-29T22:06:50.217541",
+  "total_duration": 12.16,
+  "pending_approvals": [],
+  "success_count": 10,
+  "failed_count": 0
+}

@@ -1,0 +1,41 @@
+{
+  "run_id": "demo_20260430_221224",
+  "timestamp": "2026-04-30T22:12:24.747734",
+  "keywords_count": 5,
+  "platforms": [
+    "Taobao",
+    "Meituan",
+    "JD",
+    "Douyin"
+  ],
+  "products_collected": 20,
+  "avg_price": 154.8,
+  "top_platform": "Taobao",
+  "decision": {
+    "action": "price_adjust",
+    "target_platform": "Taobao",
+    "suggestion": "Adjust price 9% on Taobao",
+    "reason": "Holiday preparation period, price sensitive",
+    "priority": 7,
+    "approval_required": true
+  },
+  "status": "completed",
+  "duration_seconds": 12.5,
+  "stages": {
+    "collection": {
+      "platforms": 4,
+      "items": 20
+    },
+    "fusion": {
+      "cross_platform": true,
+      "llm_powered": true
+    },
+    "decision": {
+      "actions": 1,
+      "priority": 7
+    },
+    "execution": {
+      "status": "pending_approval"
+    }
+  }
+}
